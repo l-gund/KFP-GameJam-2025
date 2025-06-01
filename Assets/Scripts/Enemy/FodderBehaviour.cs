@@ -54,10 +54,13 @@ public class FodderBehaviour : MonoBehaviour
 
     private void HandleCollision(Collider2D collision)
     {
-        Health? playerHealth = collision.GetComponent<Health>();
-        if (playerHealth != null)
+        if (collision.CompareTag("Player"))
         {
-            playerHealth.Damage(damage);
+            Health? playerHealth = collision.GetComponent<Health>();
+            if (playerHealth != null)
+            {
+                playerHealth.Damage(damage);
+            }
         }
     }
 }
