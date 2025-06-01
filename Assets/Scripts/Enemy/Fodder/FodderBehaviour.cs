@@ -5,8 +5,7 @@ using UnityEngine;
 public class FodderBehaviour : MonoBehaviour
 {
     private const string PLAYER_TAG = "Player";
-    private const string ANIMATOR_VELOCITY_X_PARAM = "velocityX";
-    private const string ANIMATOR_VELOCITY_Y_PARAM = "velocityY";
+    private const string ANIMATOR_MAGNITUDE_PARAM = "magnitude";
 
     [SerializeField] private GameObject? player;
     [SerializeField] private float speed;
@@ -27,8 +26,7 @@ public class FodderBehaviour : MonoBehaviour
             ? Vector2.zero
             : (player.transform.position - transform.position).normalized * speed;
 
-        animator!.SetFloat(ANIMATOR_VELOCITY_X_PARAM, body!.velocity.x);
-        animator!.SetFloat(ANIMATOR_VELOCITY_Y_PARAM, body!.velocity.y);
+        animator!.SetFloat(ANIMATOR_MAGNITUDE_PARAM, body!.velocity.magnitude);
 
         UpdateScale();
     }
