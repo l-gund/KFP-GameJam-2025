@@ -418,9 +418,17 @@ PrefabInstance:
       propertyPath: m_LocalPosition.y
       value: 2.5
       objectReference: {fileID: 0}
+    - target: {fileID: 2181732256683274514, guid: c21b2d2e7256499489ee9f2de7129e1f, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2591346477483657146, guid: c21b2d2e7256499489ee9f2de7129e1f, type: 3}
+      propertyPath: chargeSpeed
+      value: 1500
+      objectReference: {fileID: 0}
     - target: {fileID: 2591346477483657146, guid: c21b2d2e7256499489ee9f2de7129e1f, type: 3}
       propertyPath: slashDamage
-      value: 150
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 2591346477483657146, guid: c21b2d2e7256499489ee9f2de7129e1f, type: 3}
       propertyPath: whoCanBeHit.m_Bits
