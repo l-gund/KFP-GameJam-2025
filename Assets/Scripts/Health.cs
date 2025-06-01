@@ -23,7 +23,7 @@ public class Health : MonoBehaviour
     public void Damage(int amount)
     {
         health = Mathf.Max(0, health - amount);
-        if (health == 0)
+        if (health <= 0)
         {
             Destroy(gameObject);
         }
