@@ -20,7 +20,7 @@ public class PlayerController : MonoBehaviour
     {
         float moveX = Input.GetAxis("Horizontal");
         float moveY = Input.GetAxis("Vertical");
-        // Debug.Log(moveX + ", " + moveY);
+        Debug.Log(moveX + ", " + moveY);
 
         moveDirection = new Vector2(moveX, moveY).normalized;
     }
