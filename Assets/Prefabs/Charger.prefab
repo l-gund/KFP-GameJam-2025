@@ -139,8 +139,13 @@ MonoBehaviour:
   player: {fileID: 0}
   state: 0
   speed: 1
-  chargeSpeed: 5
   damage: 20
+  chargeTriggerDistance: 2.5
+  chargeSpeed: 5
+  chargeStartupTicks: 60
+  chargeActiveTicks: 60
+  chargeRecoveryTicks: 120
+  chargeCooldown: 240
 --- !u!50 &933746462355363357
 Rigidbody2D:
   serializedVersion: 4

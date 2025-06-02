@@ -2,11 +2,11 @@ using System;
 
 public enum ChargerState
 {
-    Following,
-    StartingCharge,
+    Hostile,
+    ChargeStartup,
     PerformingCharge,
-    Charging,
-    RecoveringFromCharge,
+    Charge,
+    ChargeRecovery,
 }
 
 public static class Extensions
@@ -15,16 +15,14 @@ public static class Extensions
     {
         switch (state)
         {
-            case ChargerState.Following:
+            case ChargerState.Hostile:
                 return 0;
-            case ChargerState.StartingCharge:
+            case ChargerState.ChargeStartup:
                 return 1;
-            case ChargerState.PerformingCharge:
+            case ChargerState.Charge:
                 return 2;
-            case ChargerState.Charging:
+            case ChargerState.ChargeRecovery:
                 return 3;
-            case ChargerState.RecoveringFromCharge:
-                return 4;
             default:
                 throw new ArgumentException(
                     string.Format("Failed to map charger state: {0} to an animator state", state)

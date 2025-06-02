@@ -9,22 +9,22 @@ public class ChargerBehaviour : MonoBehaviour
     private const string ANIMATOR_STATE_PARAM = "state";
     private const string ANIMATOR_MAGNITUDE_PARAM = "magnitude";
 
-    private const float CHARGE_TRIGGER_DISTANCE = 2.5f;
-    private const int CHARGE_STARTUP_TICKS = 60;
-    private const int CHARGE_ACTIVE_TICKS = 60;
-    private const int CHARGE_RECOVERY_TICKS = 180;
-    private const int CHARGE_COOLDOWN = 300;
-
     [SerializeField] private GameObject? player;
-    [SerializeField] private ChargerState state = ChargerState.Following;
+    [SerializeField] private ChargerState state = ChargerState.Hostile;
     [SerializeField] private float speed;
-    [SerializeField] private float chargeSpeed;
     [SerializeField] private int damage;
+
+    [SerializeField] private float chargeTriggerDistance;
+    [SerializeField] private float chargeSpeed;
+    [SerializeField] private int chargeStartupTicks;
+    [SerializeField] private int chargeActiveTicks;
+    [SerializeField] private int chargeRecoveryTicks;
+    [SerializeField] private int chargeCooldown;
 
     private Animator? animator;
     private Rigidbody2D? body;
-    private List<DeferredAction> deferredActions = new List<DeferredAction>();
-    private int chargeCooldown = CHARGE_COOLDOWN;
+    private List<DeferredAction> deferredActions = new();
+    private int chargeCurrentCooldown = 0;
 
     void Start()
     {
@@ -37,7 +37,6 @@ public class ChargerBehaviour : MonoBehaviour
         for (int i = deferredActions.Count - 1; i >= 0; i--)
         {
             DeferredAction action = deferredActions[i];
-
             if (action.GetTicks() == 0)
             {
                 action.Execute();
@@ -50,25 +49,18 @@ public class ChargerBehaviour : MonoBehaviour
 
         switch (state)
         {
-            case ChargerState.Following:
-                Follow();
-                break;
-            case ChargerState.PerformingCharge:
-                Charge();
+            case ChargerState.Hostile:
+                AttackPlayer();
                 break;
             default:
                 break;
         }
 
-        if (chargeCooldown > 0)
-        {
-            chargeCooldown--;
-        }
-
+        if (chargeCurrentCooldown > 0) chargeCurrentCooldown--;
         UpdateScale();
     }
 
-    private void Follow()
+    private void AttackPlayer()
     {
         if (player == null)
         {
@@ -77,10 +69,10 @@ public class ChargerBehaviour : MonoBehaviour
         }
 
         float distance = Vector2.Distance(player.transform.position, transform.position);
-        if (chargeCooldown == 0 && distance >= CHARGE_TRIGGER_DISTANCE)
+        if (chargeCurrentCooldown == 0 && distance >= chargeTriggerDistance)
         {
             UpdateVelocity(Vector2.zero);
-            UpdateState(ChargerState.StartingCharge);
+            UpdateState(ChargerState.ChargeStartup);
             return;
         }
 
@@ -89,19 +81,17 @@ public class ChargerBehaviour : MonoBehaviour
         );
     }
 
-
-
     private void Charge()
     {
         if (player == null)
         {
-            UpdateState(ChargerState.Following);
+            UpdateState(ChargerState.Hostile);
             return;
         }
 
         Vector2 velocity = (player.transform.position - transform.position).normalized * chargeSpeed;
         UpdateVelocity(velocity);
-        UpdateState(ChargerState.Charging);
+        UpdateState(ChargerState.Charge);
     }
 
     private void UpdateVelocity(Vector2 velocity)
@@ -114,34 +104,31 @@ public class ChargerBehaviour : MonoBehaviour
     {
         switch (state)
         {
-            case ChargerState.StartingCharge:
+            case ChargerState.ChargeStartup:
                 deferredActions.Add(
-                    new DeferredAction(
-                        CHARGE_STARTUP_TICKS,
-                        () => UpdateState(ChargerState.PerformingCharge)
-                    )
+                    new DeferredAction(chargeStartupTicks, () => Charge())
                 );
                 break;
-            case ChargerState.Charging:
+            case ChargerState.Charge:
                 deferredActions.Add(
                     new DeferredAction(
-                        CHARGE_ACTIVE_TICKS,
+                        chargeActiveTicks,
                         () =>
                         {
-                            UpdateState(ChargerState.RecoveringFromCharge);
+                            UpdateState(ChargerState.ChargeRecovery);
                             UpdateVelocity(Vector2.zero);
                         }
                     )
                 );
                 break;
-            case ChargerState.RecoveringFromCharge:
+            case ChargerState.ChargeRecovery:
                 deferredActions.Add(
                     new DeferredAction(
-                        CHARGE_RECOVERY_TICKS,
+                        chargeRecoveryTicks,
                         () =>
                         {
-                            UpdateState(ChargerState.Following);
-                            chargeCooldown = CHARGE_COOLDOWN;
+                            UpdateState(ChargerState.Hostile);
+                            chargeCurrentCooldown = chargeCooldown;
                         }
                     )
                 );
