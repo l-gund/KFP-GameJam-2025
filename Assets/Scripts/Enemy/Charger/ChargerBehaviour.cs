@@ -37,7 +37,7 @@ public class ChargerBehaviour : MonoBehaviour
         for (int i = deferredActions.Count - 1; i >= 0; i--)
         {
             DeferredAction action = deferredActions[i];
-            if (action.GetTicks() == 0)
+            if (action.ShouldExecute())
             {
                 action.Execute();
                 deferredActions.RemoveAt(i);
@@ -68,8 +68,8 @@ public class ChargerBehaviour : MonoBehaviour
             return;
         }
 
-        float distance = Vector2.Distance(player.transform.position, transform.position);
-        if (chargeCurrentCooldown == 0 && distance >= chargeTriggerDistance)
+        float distanceFromPlayer = Vector2.Distance(player.transform.position, transform.position);
+        if (ShouldCharge(distanceFromPlayer))
         {
             UpdateVelocity(Vector2.zero);
             UpdateState(ChargerState.ChargeStartup);
@@ -79,6 +79,11 @@ public class ChargerBehaviour : MonoBehaviour
         UpdateVelocity(
             (player.transform.position - transform.position).normalized * speed
         );
+    }
+
+    private bool ShouldCharge(float distanceFromPlayer)
+    {
+        return chargeCurrentCooldown == 0 && distanceFromPlayer >= chargeTriggerDistance;
     }
 
     private void Charge()

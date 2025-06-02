@@ -21,6 +21,11 @@ public class DeferredAction
         ticks--;
     }
 
+    public bool ShouldExecute()
+    {
+        return ticks == 0;
+    }
+
     public void Execute()
     {
         action();
