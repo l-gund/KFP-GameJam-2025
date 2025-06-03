@@ -6,6 +6,7 @@ using UnityEngine;
 public class ChargerBehaviour : MonoBehaviour
 {
     private const string PLAYER_TAG = "Player";
+    private const float CHARGER_SCALE = 2;
     private const string ANIMATOR_STATE_PARAM = "state";
     private const string ANIMATOR_MAGNITUDE_PARAM = "magnitude";
 
@@ -58,6 +59,7 @@ public class ChargerBehaviour : MonoBehaviour
 
         if (chargeCurrentCooldown > 0) chargeCurrentCooldown--;
         UpdateScale();
+        UpdateRotation();
     }
 
     private void AttackPlayer()
@@ -154,9 +156,15 @@ public class ChargerBehaviour : MonoBehaviour
         }
 
         transform.localScale = new Vector3(
-            (body!.velocity.x > 0f) ? 1f : -1f,
+            (body!.velocity.x > 0f) ? CHARGER_SCALE : -CHARGER_SCALE,
             transform.localScale.y
         );
+    }
+
+    private void UpdateRotation()
+    {
+        float rotationZ = (state == ChargerState.ChargeStartup) ? 15f : 0f;
+        transform.rotation = Quaternion.Euler(transform.rotation.x, transform.rotation.y, rotationZ);
     }
 
     void OnTriggerStay2D(Collider2D collision)
