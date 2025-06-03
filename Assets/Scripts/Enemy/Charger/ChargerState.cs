@@ -4,7 +4,6 @@ public enum ChargerState
 {
     Hostile,
     ChargeStartup,
-    PerformingCharge,
     Charge,
     ChargeRecovery,
 }
