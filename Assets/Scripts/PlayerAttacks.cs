@@ -13,6 +13,9 @@ public class PlayerAttacks : MonoBehaviour
 
     [SerializeField] private float chargeCooldown = 2f;
     [SerializeField] private float chargeSpeed = 15f;
+    [SerializeField] private float maxChargeDistance = 3f;
+    [SerializeField] private float chargeRate = 1.1f;
+ 
 
     [SerializeField] private float parryCooldown = 1f;
     [SerializeField] private float parryDuration = .25f;
@@ -21,8 +24,9 @@ public class PlayerAttacks : MonoBehaviour
 
     private float slashTimer;
     private float chargeTimer;
+    private bool isCharging = false;
+    private Vector2 slashStartPos;
     private float parryTimer;
-    private bool charging = false;
     private float timeCharging;
     private Rigidbody2D rb;
     // Start is called before the first frame update
@@ -32,6 +36,7 @@ public class PlayerAttacks : MonoBehaviour
         chargeTimer = chargeCooldown;
         parryTimer = parryCooldown;
         rb = gameObject.GetComponent<Rigidbody2D>();
+        slashStartPos = slashPoint.position;
     }
 
     // Update is called once per frame
@@ -45,21 +50,35 @@ public class PlayerAttacks : MonoBehaviour
 
         if (Input.GetMouseButton(1))
         {
-            Debug.Log("Faggot Cunt Bitch Nigger Coon Kike Chink");
-            charging = true;
+            /*
+            isCharging = true;
+            freeze gameObject.position
+            if slash.magnitute > maxChargeDist
+                slash.position++
+            */
+            float moveX = Input.GetAxisRaw("Horizontal");
+            float moveY = Input.GetAxisRaw("Vertical");
+            Vector2 moveDirection = new Vector2(moveX, moveY);
+            moveDirection.Normalize();
+
+            isCharging = true;
+            
+            if (isCharging && slashPoint.position.magnitude > maxChargeDistance)
+                slashPoint.position = new Vector2((slashPoint.position.x + moveX) * chargeRate, (slashPoint.position.y + moveY) * chargeRate);
+                
             timeCharging = 0;
             timeCharging += Time.deltaTime;
 
         }
-        else if (Input.GetMouseButtonUp(1) && charging)
+        else if (Input.GetMouseButtonUp(1) && isCharging)
         {
             ChargeAttack(timeCharging);
-            charging = !charging;
+            isCharging = !isCharging;
             chargeTimer = 0f;
             gameObject.transform.position = gameObject.transform.position;
         }
 
-        if (!charging)
+        if (!isCharging)
             chargeTimer += Time.deltaTime;
 
         slashTimer += Time.deltaTime;
@@ -85,6 +104,6 @@ public class PlayerAttacks : MonoBehaviour
         Vector2 moveDir = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Horizontal"));
         rb.AddForce(transform.up * chargeSpeed, ForceMode2D.Impulse);
         Debug.Log(transform.up * chargeSpeed);
-        
+        slashPoint.position = slashStartPos;
     }
 }

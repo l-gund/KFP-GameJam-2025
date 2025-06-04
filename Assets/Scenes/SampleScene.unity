@@ -431,6 +431,10 @@ PrefabInstance:
       value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 2591346477483657146, guid: c21b2d2e7256499489ee9f2de7129e1f, type: 3}
+      propertyPath: maxChargeDistance
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2591346477483657146, guid: c21b2d2e7256499489ee9f2de7129e1f, type: 3}
       propertyPath: whoCanBeHit.m_Bits
       value: 8
       objectReference: {fileID: 0}
@@ -456,11 +460,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6463572342673771179, guid: c21b2d2e7256499489ee9f2de7129e1f, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: -0.85477614
       objectReference: {fileID: 0}
     - target: {fileID: 6463572342673771179, guid: c21b2d2e7256499489ee9f2de7129e1f, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 6463572342673771179, guid: c21b2d2e7256499489ee9f2de7129e1f, type: 3}
       propertyPath: m_LocalRotation.y
@@ -468,7 +472,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6463572342673771179, guid: c21b2d2e7256499489ee9f2de7129e1f, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0.5189969
       objectReference: {fileID: 0}
     - target: {fileID: 6463572342673771179, guid: c21b2d2e7256499489ee9f2de7129e1f, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -480,7 +484,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6463572342673771179, guid: c21b2d2e7256499489ee9f2de7129e1f, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
+      value: -297.47
       objectReference: {fileID: 0}
     - target: {fileID: 6757757639151030865, guid: c21b2d2e7256499489ee9f2de7129e1f, type: 3}
       propertyPath: m_GravityScale
