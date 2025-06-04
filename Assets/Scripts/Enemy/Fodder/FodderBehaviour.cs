@@ -4,12 +4,10 @@ using UnityEngine;
 
 public class FodderBehaviour : MonoBehaviour
 {
-    private const string PLAYER_TAG = "Player";
     private const string ANIMATOR_MAGNITUDE_PARAM = "magnitude";
 
     [SerializeField] private GameObject? player;
     [SerializeField] private float speed;
-    [SerializeField] private int damage;
 
     private Animator? animator;
     private Rigidbody2D? body;
@@ -42,27 +40,5 @@ public class FodderBehaviour : MonoBehaviour
             (body!.velocity.x > 0f) ? 1f : -1f,
             transform.localScale.y
         );
-    }
-
-    void OnTriggerStay2D(Collider2D collision)
-    {
-        HandleCollision(collision);
-    }
-
-    void OnTriggerEnter2D(Collider2D collision)
-    {
-        HandleCollision(collision);
-    }
-
-    private void HandleCollision(Collider2D collision)
-    {
-        if (collision.CompareTag(PLAYER_TAG))
-        {
-            Health? playerHealth = collision.GetComponent<Health>();
-            if (playerHealth != null)
-            {
-                playerHealth.Damage(damage);
-            }
-        }
     }
 }

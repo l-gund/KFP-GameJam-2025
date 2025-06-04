@@ -8,7 +8,7 @@ public enum ChargerState
     ChargeRecovery,
 }
 
-public static class Extensions
+public static class ChargerStateExtensions
 {
     public static int ToAnimatorState(this ChargerState state)
     {
