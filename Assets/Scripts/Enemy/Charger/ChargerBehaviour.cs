@@ -10,7 +10,6 @@ public class ChargerBehaviour : MonoBehaviour
     private const string ANIMATOR_MAGNITUDE_PARAM = "magnitude";
 
     [SerializeField] private GameObject? player;
-    [SerializeField] private ChargerState state = ChargerState.Hostile;
     [SerializeField] private float speed;
 
     [SerializeField] private float chargeTriggerDistance;
@@ -22,6 +21,7 @@ public class ChargerBehaviour : MonoBehaviour
 
     private Animator? animator;
     private Rigidbody2D? body;
+    private ChargerStateManager? stateManager;
     private List<DeferredAction> deferredActions = new();
     private int chargeCurrentCooldown = 0;
 
@@ -29,6 +29,7 @@ public class ChargerBehaviour : MonoBehaviour
     {
         animator = GetComponent<Animator>();
         body = GetComponent<Rigidbody2D>();
+        stateManager = GetComponent<ChargerStateManager>();
     }
 
     void FixedUpdate()
@@ -46,6 +47,7 @@ public class ChargerBehaviour : MonoBehaviour
             action.Tick();
         }
 
+        ChargerState state = stateManager!.GetState();
         switch (state)
         {
             case ChargerState.Hostile:
@@ -142,13 +144,13 @@ public class ChargerBehaviour : MonoBehaviour
                 break;
         }
 
-        this.state = state;
+        stateManager!.SetState(state);
         animator!.SetInteger(ANIMATOR_STATE_PARAM, state.ToAnimatorState());
     }
 
     private void UpdateRotation()
     {
-        float rotationZ = (state == ChargerState.ChargeStartup) ? 15f : 0f;
+        float rotationZ = (stateManager!.GetState() == ChargerState.ChargeStartup) ? 15f : 0f;
         transform.rotation = Quaternion.Euler(transform.rotation.x, transform.rotation.y, rotationZ);
     }
 

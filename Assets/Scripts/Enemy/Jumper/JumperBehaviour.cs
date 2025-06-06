@@ -10,7 +10,6 @@ public class JumperBehaviour : MonoBehaviour
     private const string ANIMATOR_MAGNITUDE_PARAM = "magnitude";
 
     [SerializeField] private GameObject? player;
-    [SerializeField] private JumperState state = JumperState.Hostile;
 
     [SerializeField] private float jumpMaxDistance;
     [SerializeField] private float jumpMaxHeight;
@@ -20,6 +19,7 @@ public class JumperBehaviour : MonoBehaviour
 
     private Animator? animator;
     private Rigidbody2D? body;
+    private JumperStateManager? stateManager;
     private List<DeferredAction> deferredActions = new();
 
     private float jumpDistance;
@@ -31,6 +31,7 @@ public class JumperBehaviour : MonoBehaviour
     {
         // animator = GetComponent<Animator>();
         body = GetComponent<Rigidbody2D>();
+        stateManager = GetComponent<JumperStateManager>();
     }
 
     void FixedUpdate()
@@ -48,6 +49,7 @@ public class JumperBehaviour : MonoBehaviour
             action.Tick();
         }
 
+        JumperState state = stateManager!.GetState();
         switch (state)
         {
             case JumperState.Hostile:
@@ -63,11 +65,6 @@ public class JumperBehaviour : MonoBehaviour
         if (state == JumperState.Jump) jumpCurrentTicks++;
 
         UpdateScale();
-    }
-
-    public JumperState GetState()
-    {
-        return state;
     }
 
     private void Jump()
@@ -146,7 +143,7 @@ public class JumperBehaviour : MonoBehaviour
                 break;
         }
 
-        this.state = state;
+        stateManager!.SetState(state);
         // animator!.SetInteger(ANIMATOR_STATE_PARAM, state.ToAnimatorState());
     }
 
