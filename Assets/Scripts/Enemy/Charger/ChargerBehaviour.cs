@@ -22,7 +22,7 @@ public class ChargerBehaviour : MonoBehaviour
     private Animator? animator;
     private Rigidbody2D? body;
     private ChargerStateManager? stateManager;
-    private List<DeferredAction> deferredActions = new();
+    private readonly DeferredActionManager deferredActionManager = new();
     private int chargeCurrentCooldown = 0;
 
     void Start()
@@ -34,18 +34,7 @@ public class ChargerBehaviour : MonoBehaviour
 
     void FixedUpdate()
     {
-        for (int i = deferredActions.Count - 1; i >= 0; i--)
-        {
-            DeferredAction action = deferredActions[i];
-            if (action.ShouldExecute())
-            {
-                action.Execute();
-                deferredActions.RemoveAt(i);
-                continue;
-            }
-
-            action.Tick();
-        }
+        deferredActionManager.OnFixedUpdate();
 
         ChargerState state = stateManager!.GetState();
         switch (state)
@@ -112,32 +101,28 @@ public class ChargerBehaviour : MonoBehaviour
         switch (state)
         {
             case ChargerState.ChargeStartup:
-                deferredActions.Add(
-                    new DeferredAction(chargeStartupTicks, () => Charge())
+                deferredActionManager.Defer(
+                    chargeStartupTicks, () => Charge()
                 );
                 break;
             case ChargerState.Charge:
-                deferredActions.Add(
-                    new DeferredAction(
-                        chargeActiveTicks,
-                        () =>
-                        {
-                            UpdateState(ChargerState.ChargeRecovery);
-                            UpdateVelocity(Vector2.zero);
-                        }
-                    )
+                deferredActionManager.Defer(
+                    chargeActiveTicks,
+                    () =>
+                    {
+                        UpdateState(ChargerState.ChargeRecovery);
+                        UpdateVelocity(Vector2.zero);
+                    }
                 );
                 break;
             case ChargerState.ChargeRecovery:
-                deferredActions.Add(
-                    new DeferredAction(
-                        chargeRecoveryTicks,
-                        () =>
-                        {
-                            UpdateState(ChargerState.Hostile);
-                            chargeCurrentCooldown = chargeCooldown;
-                        }
-                    )
+                deferredActionManager.Defer(
+                    chargeRecoveryTicks,
+                    () =>
+                    {
+                        UpdateState(ChargerState.Hostile);
+                        chargeCurrentCooldown = chargeCooldown;
+                    }
                 );
                 break;
             default:
