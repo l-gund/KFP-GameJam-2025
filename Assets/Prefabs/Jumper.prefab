@@ -102,8 +102,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f73a62708444017408f38a40d231e06d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 5
-  maxHealth: 5
+  health: 10
+  maxHealth: 10
 --- !u!114 &2515443015307424672
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -116,7 +116,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66a1fd430443a524ab0f09f40f19619b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 5
+  tags:
+  - Player
+  damage: 10
 --- !u!114 &3477174944753653164
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -133,9 +135,9 @@ MonoBehaviour:
   state: 0
   jumpMaxDistance: 5
   jumpMaxHeight: 1
-  jumpStartupTicks: 3
+  jumpStartupTicks: 10
   jumpActiveTicks: 30
-  jumpRecoveryTicks: 3
+  jumpRecoveryTicks: 10
 --- !u!50 &2040593179307010934
 Rigidbody2D:
   serializedVersion: 4
@@ -223,7 +225,7 @@ BoxCollider2D:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 64
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2

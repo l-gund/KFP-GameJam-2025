@@ -138,6 +138,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc692c9a52c642d43835bbc288d76f5e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  tags:
+  - Player
   damage: 10
 --- !u!114 &5926758269556092677
 MonoBehaviour:
@@ -240,7 +242,7 @@ BoxCollider2D:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 64
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2

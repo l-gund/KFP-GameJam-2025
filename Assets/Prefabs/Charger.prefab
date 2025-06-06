@@ -143,10 +143,10 @@ MonoBehaviour:
   speed: 0.5
   chargeTriggerDistance: 2.5
   chargeSpeed: 5
-  chargeStartupTicks: 60
-  chargeActiveTicks: 60
-  chargeRecoveryTicks: 120
-  chargeCooldown: 240
+  chargeStartupTicks: 50
+  chargeActiveTicks: 50
+  chargeRecoveryTicks: 100
+  chargeCooldown: 250
 --- !u!50 &933746462355363357
 Rigidbody2D:
   serializedVersion: 4
@@ -294,6 +294,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc692c9a52c642d43835bbc288d76f5e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  tags:
+  - Player
   damage: 20
 --- !u!61 &8291575500668281467
 BoxCollider2D:
@@ -310,7 +312,7 @@ BoxCollider2D:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 64
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
