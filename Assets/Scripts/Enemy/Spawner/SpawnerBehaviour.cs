@@ -14,7 +14,7 @@ public class SpawnerBehaviour : MonoBehaviour
     [SerializeField] private float range;
     [SerializeField] private int maxObjects;
 
-    private DeferredActionManager deferredActionManager = new();
+    private readonly DeferredActionManager deferredActionManager = new();
 
     void Start()
     {

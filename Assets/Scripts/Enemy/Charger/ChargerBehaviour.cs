@@ -22,7 +22,7 @@ public class ChargerBehaviour : MonoBehaviour
     private Animator? animator;
     private Rigidbody2D? body;
     private ChargerStateManager? stateManager;
-    private DeferredActionManager deferredActionManager = new();
+    private readonly DeferredActionManager deferredActionManager = new();
     private int chargeCurrentCooldown = 0;
 
     void Start()

@@ -20,7 +20,7 @@ public class JumperBehaviour : MonoBehaviour
     private Animator? animator;
     private Rigidbody2D? body;
     private JumperStateManager? stateManager;
-    private DeferredActionManager deferredActionManager = new();
+    private readonly DeferredActionManager deferredActionManager = new();
 
     private float jumpDistance;
     private Vector2 jumpStartPosition;
