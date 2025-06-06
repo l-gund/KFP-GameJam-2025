@@ -30,10 +30,10 @@ public class Damage : MonoBehaviour, Triggerable
     {
         if (tagSet.Contains(gameObject.tag))
         {
-            Health? playerHealth = gameObject.GetComponent<Health>();
-            if (playerHealth != null)
+            Health? health = gameObject.GetComponent<Health>();
+            if (health != null)
             {
-                playerHealth.Damage(damage);
+                health.Damage(damage);
             }
         }
     }
