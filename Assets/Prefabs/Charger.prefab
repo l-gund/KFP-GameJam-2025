@@ -12,10 +12,13 @@ GameObject:
   - component: {fileID: 860987328182072128}
   - component: {fileID: 8736436361640543964}
   - component: {fileID: 5742329657571446115}
+  - component: {fileID: 4182096510331123765}
+  - component: {fileID: 488616544393866695}
   - component: {fileID: 4035056522326168642}
   - component: {fileID: 933746462355363357}
   - component: {fileID: 1945441907995386818}
-  m_Layer: 0
+  - component: {fileID: 8291575500668281467}
+  m_Layer: 6
   m_Name: Charger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -32,7 +35,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -137,15 +140,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 0}
-  state: 0
-  speed: 1
-  damage: 20
+  speed: 0.5
   chargeTriggerDistance: 2.5
   chargeSpeed: 5
-  chargeStartupTicks: 60
-  chargeActiveTicks: 60
-  chargeRecoveryTicks: 120
-  chargeCooldown: 240
+  chargeStartupTicks: 50
+  chargeActiveTicks: 75
+  chargeRecoveryTicks: 100
+  chargeCooldown: 250
 --- !u!50 &933746462355363357
 Rigidbody2D:
   serializedVersion: 4
@@ -185,7 +186,7 @@ BoxCollider2D:
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 64
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -273,5 +274,87 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8596903432508496903, guid: a1a0c54bd198dc94380bd78f9127f2bb, type: 3}
+      insertIndex: 4
+      addedObject: {fileID: 4182096510331123765}
+    - targetCorrespondingSourceObject: {fileID: 8596903432508496903, guid: a1a0c54bd198dc94380bd78f9127f2bb, type: 3}
+      insertIndex: 5
+      addedObject: {fileID: 488616544393866695}
+    - targetCorrespondingSourceObject: {fileID: 8596903432508496903, guid: a1a0c54bd198dc94380bd78f9127f2bb, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8291575500668281467}
   m_SourcePrefab: {fileID: 100100000, guid: a1a0c54bd198dc94380bd78f9127f2bb, type: 3}
+--- !u!114 &4182096510331123765
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2586697734914914144}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc692c9a52c642d43835bbc288d76f5e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tags:
+  - Player
+  damage: 20
+--- !u!114 &488616544393866695
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2586697734914914144}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12c90469deff34a4e9774ee2b3b763f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  state: 0
+--- !u!61 &8291575500668281467
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2586697734914914144}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 64
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.05, y: 0.025}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1.2304688, y: 1.0021591}
+    newSize: {x: 1.2304688, y: 1.0021591}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1.05, y: 1.05}
+  m_EdgeRadius: 0

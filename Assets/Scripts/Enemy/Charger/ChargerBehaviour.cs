@@ -5,15 +5,12 @@ using UnityEngine;
 
 public class ChargerBehaviour : MonoBehaviour
 {
-    private const string PLAYER_TAG = "Player";
-    private const float CHARGER_SCALE = 2;
+    private const float CHARGER_SCALE = 1.5f;
     private const string ANIMATOR_STATE_PARAM = "state";
     private const string ANIMATOR_MAGNITUDE_PARAM = "magnitude";
 
     [SerializeField] private GameObject? player;
-    [SerializeField] private ChargerState state = ChargerState.Hostile;
     [SerializeField] private float speed;
-    [SerializeField] private int damage;
 
     [SerializeField] private float chargeTriggerDistance;
     [SerializeField] private float chargeSpeed;
@@ -24,6 +21,7 @@ public class ChargerBehaviour : MonoBehaviour
 
     private Animator? animator;
     private Rigidbody2D? body;
+    private ChargerStateManager? stateManager;
     private List<DeferredAction> deferredActions = new();
     private int chargeCurrentCooldown = 0;
 
@@ -31,6 +29,7 @@ public class ChargerBehaviour : MonoBehaviour
     {
         animator = GetComponent<Animator>();
         body = GetComponent<Rigidbody2D>();
+        stateManager = GetComponent<ChargerStateManager>();
     }
 
     void FixedUpdate()
@@ -48,6 +47,7 @@ public class ChargerBehaviour : MonoBehaviour
             action.Tick();
         }
 
+        ChargerState state = stateManager!.GetState();
         switch (state)
         {
             case ChargerState.Hostile:
@@ -144,8 +144,14 @@ public class ChargerBehaviour : MonoBehaviour
                 break;
         }
 
-        this.state = state;
+        stateManager!.SetState(state);
         animator!.SetInteger(ANIMATOR_STATE_PARAM, state.ToAnimatorState());
+    }
+
+    private void UpdateRotation()
+    {
+        float rotationZ = (stateManager!.GetState() == ChargerState.ChargeStartup) ? 15f : 0f;
+        transform.rotation = Quaternion.Euler(transform.rotation.x, transform.rotation.y, rotationZ);
     }
 
     private void UpdateScale()
@@ -159,33 +165,5 @@ public class ChargerBehaviour : MonoBehaviour
             (body!.velocity.x > 0f) ? CHARGER_SCALE : -CHARGER_SCALE,
             transform.localScale.y
         );
-    }
-
-    private void UpdateRotation()
-    {
-        float rotationZ = (state == ChargerState.ChargeStartup) ? 15f : 0f;
-        transform.rotation = Quaternion.Euler(transform.rotation.x, transform.rotation.y, rotationZ);
-    }
-
-    void OnTriggerStay2D(Collider2D collision)
-    {
-        HandleCollision(collision);
-    }
-
-    void OnTriggerEnter2D(Collider2D collision)
-    {
-        HandleCollision(collision);
-    }
-
-    private void HandleCollision(Collider2D collision)
-    {
-        if (collision.CompareTag(PLAYER_TAG))
-        {
-            Health? playerHealth = collision.GetComponent<Health>();
-            if (playerHealth != null)
-            {
-                playerHealth.Damage(damage);
-            }
-        }
     }
 }
