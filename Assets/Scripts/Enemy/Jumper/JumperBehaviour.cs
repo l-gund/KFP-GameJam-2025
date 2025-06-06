@@ -20,7 +20,7 @@ public class JumperBehaviour : MonoBehaviour
     private Animator? animator;
     private Rigidbody2D? body;
     private JumperStateManager? stateManager;
-    private List<DeferredAction> deferredActions = new();
+    private DeferredActionManager deferredActionManager = new();
 
     private float jumpDistance;
     private Vector2 jumpStartPosition;
@@ -36,18 +36,7 @@ public class JumperBehaviour : MonoBehaviour
 
     void FixedUpdate()
     {
-        for (int i = deferredActions.Count - 1; i >= 0; i--)
-        {
-            DeferredAction action = deferredActions[i];
-            if (action.ShouldExecute())
-            {
-                action.Execute();
-                deferredActions.RemoveAt(i);
-                continue;
-            }
-
-            action.Tick();
-        }
+        deferredActionManager.OnFixedUpdate();
 
         JumperState state = stateManager!.GetState();
         switch (state)
@@ -106,37 +95,25 @@ public class JumperBehaviour : MonoBehaviour
         switch (state)
         {
             case JumperState.JumpStartup:
-                deferredActions.Add(
-                    new DeferredAction(
-                        jumpStartupTicks,
-                        () =>
-                        {
-                            UpdateState(JumperState.Jump);
-                        }
-                    )
+                deferredActionManager.Defer(
+                    jumpStartupTicks,
+                    () => UpdateState(JumperState.Jump)
                 );
                 break;
             case JumperState.Jump:
-                deferredActions.Add(
-                    new DeferredAction(
-                        jumpActiveTicks,
-                        () =>
-                        {
-                            UpdateState(JumperState.JumpRecovery);
-                            UpdateVelocity(Vector2.zero);
-                        }
-                    )
+                deferredActionManager.Defer(
+                    jumpActiveTicks,
+                    () =>
+                    {
+                        UpdateState(JumperState.JumpRecovery);
+                        UpdateVelocity(Vector2.zero);
+                    }
                 );
                 break;
             case JumperState.JumpRecovery:
-                deferredActions.Add(
-                    new DeferredAction(
-                        jumpRecoveryTicks,
-                        () =>
-                        {
-                            UpdateState(JumperState.Hostile);
-                        }
-                    )
+                deferredActionManager.Defer(
+                    jumpRecoveryTicks,
+                    () => UpdateState(JumperState.Hostile)
                 );
                 break;
             default:
