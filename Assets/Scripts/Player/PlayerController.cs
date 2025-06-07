@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using UnityEngine;
 
 public enum PlayerState
@@ -30,6 +31,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float chargeRate;
     [SerializeField] private float maxChargeDisatace;
     [SerializeField] private float chargeSpeed;
+    [SerializeField] private int chargeDamage;
     private float chargeTimer;
     private Vector2 chargeEndPoint;
     private Vector2 chargepoint2;
@@ -37,6 +39,7 @@ public class PlayerController : MonoBehaviour
     [Header("Parry Details")]
     [SerializeField] private float parryCooldown;
     [SerializeField] private float parryDuration;
+    [SerializeField] private GameObject parryExplosion;
     private float parryTimer;
 
 
@@ -46,6 +49,7 @@ public class PlayerController : MonoBehaviour
     private Collider2D[] hits;
     private Vector2 mousePos;
     private PlayerState state = PlayerState.Walking;
+    private float parryCounter;
 
 
     // Start is called before the first frame update
@@ -59,10 +63,13 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        float moveX = Input.GetAxisRaw("Horizontal");
-        float moveY = Input.GetAxisRaw("Vertical");
-        moveDirection = new Vector2(moveX, moveY);
-        moveDirection.Normalize();
+        if (state == PlayerState.ChargingUp || state == PlayerState.Walking)
+        {
+            float moveX = Input.GetAxisRaw("Horizontal");
+            float moveY = Input.GetAxisRaw("Vertical");
+            moveDirection = new Vector2(moveX, moveY);
+            moveDirection.Normalize();
+        }
 
         if (Input.GetMouseButtonDown(0) && slashTimer > slashFrequency)
         {
@@ -98,13 +105,21 @@ public class PlayerController : MonoBehaviour
             rb.constraints = RigidbodyConstraints2D.FreezeAll;
             Debug.Log("Starting to parry");
             state = PlayerState.Parry;
-            float parryCounter = parryDuration;
-            // while (parryCounter != 0)
-            // {
-            //     Debug.Log(parryCounter + " more seconds to parry");
-            //     parryCounter -= Time.deltaTime;
-            // }
-            parryTimer = 0;
+            parryCounter = parryDuration;
+        }
+        if (state == PlayerState.Parry)
+        {
+            SpriteRenderer ren = GetComponent<SpriteRenderer>();
+            ren.material.color = Color.red;
+            parryCounter -= Time.deltaTime;
+            ParryAttack();
+            if (parryCounter < 0 || state != PlayerState.Parry)
+            {
+                Debug.Log("End Parry");
+                state = PlayerState.Walking;
+                ren.material.color = Color.green;
+                rb.constraints = RigidbodyConstraints2D.None;
+            }
         }
 
 
@@ -129,15 +144,11 @@ public class PlayerController : MonoBehaviour
                 break;
             case PlayerState.ChargeForward:
                 Debug.Log("CHARGE MOTHER FUCKER!!!!!");
-                Debug.Log("Endpoint is " + chargepoint2 + " but it should be " + slash.transform.position); 
-                //rb.velocity = (slash.transform.position - gameObject.transform.position) * chargeSpeed;
-                //transform.position = Vector2.Lerp(transform.position, slash.transform.localPosition, chargeSpeed);
-                rb.AddForce( new Vector2((chargepoint2.x - gameObject.transform.position.x), (chargepoint2.y - gameObject.transform.position.y)) * chargeSpeed, ForceMode2D.Impulse);
-                if (chargepoint2.Equals(gameObject.transform.position))
+                Debug.Log(Vector2.Distance(transform.position, chargepoint2));
+                ChargeAttack();
+                rb.AddForce( new Vector2(chargepoint2.x - gameObject.transform.position.x, chargepoint2.y - gameObject.transform.position.y) * chargeSpeed, ForceMode2D.Impulse);
+                if (Vector2.Distance(transform.position, chargepoint2) < 1f )
                     state = PlayerState.Walking;
-                break;
-            case PlayerState.Parry:
-                Debug.Log("Parry in Fixed Update");
                 break;
             default:
                 break;
@@ -153,9 +164,30 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    void ChargeAttack()
+    {
+        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, attackRange, whoCanBeHit);
+        foreach (Collider2D enemy in hits)
+        {
+            enemy.GetComponent<Health>().Damage(chargeDamage);
+        }
+    }
+
+    void ParryAttack()
+    {
+        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, .6f, whoCanBeHit);
+        if (hits.Length != 0)
+        {
+            Debug.Log("Activating Shockwave!!!!");
+            Instantiate(parryExplosion, transform.position, Quaternion.identity);
+            state = PlayerState.Walking;
+        }
+    }
+
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.green;
         Gizmos.DrawWireSphere(slash.transform.position, attackRange);
+        Gizmos.DrawWireSphere(transform.position, .6f);
     }
 }
