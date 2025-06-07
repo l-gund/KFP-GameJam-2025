@@ -424,7 +424,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2591346477483657146, guid: c21b2d2e7256499489ee9f2de7129e1f, type: 3}
       propertyPath: chargeSpeed
-      value: 1500
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 2591346477483657146, guid: c21b2d2e7256499489ee9f2de7129e1f, type: 3}
       propertyPath: slashDamage
@@ -432,11 +432,27 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2591346477483657146, guid: c21b2d2e7256499489ee9f2de7129e1f, type: 3}
       propertyPath: maxChargeDistance
-      value: 10
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2591346477483657146, guid: c21b2d2e7256499489ee9f2de7129e1f, type: 3}
       propertyPath: whoCanBeHit.m_Bits
       value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 3901336371814750719, guid: c21b2d2e7256499489ee9f2de7129e1f, type: 3}
+      propertyPath: chargeRate
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3901336371814750719, guid: c21b2d2e7256499489ee9f2de7129e1f, type: 3}
+      propertyPath: chargeSpeed
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3901336371814750719, guid: c21b2d2e7256499489ee9f2de7129e1f, type: 3}
+      propertyPath: chargeCooldown
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3901336371814750719, guid: c21b2d2e7256499489ee9f2de7129e1f, type: 3}
+      propertyPath: maxChargeDisatace
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 3901336371814750719, guid: c21b2d2e7256499489ee9f2de7129e1f, type: 3}
       propertyPath: whoCanBeHit.m_Bits

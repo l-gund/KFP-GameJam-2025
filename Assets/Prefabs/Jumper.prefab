@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 2040593179307010934}
   - component: {fileID: 7211961044231397888}
   - component: {fileID: 9132059349831464290}
-  m_Layer: 6
+  m_Layer: 3
   m_Name: Jumper
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -145,7 +145,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5b39248d0a13354890677cea00a1cab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 0}
+  player: {fileID: 6313181899631477779, guid: c21b2d2e7256499489ee9f2de7129e1f, type: 3}
   jumpMaxDistance: 5
   jumpMaxHeight: 1
   jumpStartupTicks: 10

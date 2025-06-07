@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 6656477495287164143}
   - component: {fileID: 7165790015923215521}
   - component: {fileID: 8411513130941891291}
-  m_Layer: 6
+  m_Layer: 3
   m_Name: Fodder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -153,7 +153,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7fda39a769f1ebc4ab225c61611546ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 0}
+  player: {fileID: 6313181899631477779, guid: c21b2d2e7256499489ee9f2de7129e1f, type: 3}
   speed: 0.75
 --- !u!50 &6656477495287164143
 Rigidbody2D:

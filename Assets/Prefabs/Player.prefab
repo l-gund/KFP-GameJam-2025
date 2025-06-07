@@ -42,7 +42,6 @@ GameObject:
   - component: {fileID: 6463572342673771179}
   - component: {fileID: 7627941015802967940}
   - component: {fileID: 3901336371814750719}
-  - component: {fileID: 2591346477483657146}
   - component: {fileID: 181267554394757116}
   - component: {fileID: 6757757639151030865}
   - component: {fileID: 2181732256683274514}
@@ -134,36 +133,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 185ceec11a6cc0b4c80dfd7f8d6567ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _moveSpeed: 5
-  _attackSpeed: 0.5
-  _attackRange: 1.5
-  _slash: {fileID: 2910396617965937420}
+  moveSpeed: 5
+  slashFrequency: 0.5
+  attackRange: 1.5
+  slash: {fileID: 2910396617965937420}
   whoCanBeHit:
     serializedVersion: 2
     m_Bits: 0
-  damage: 5
---- !u!114 &2591346477483657146
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6313181899631477779}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bed1eea978b9bf14fa6a3919fd3eb70c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  slashDamage: 5
-  slashSize: 1.5
-  slashPoint: {fileID: 420104303719314972}
-  slashCooldown: 0.5
-  chargeCooldown: 2
-  parryCooldown: 1
-  parryDuration: 0.25
-  whoCanBeHit:
-    serializedVersion: 2
-    m_Bits: 8
+  slasDamage: 3
+  chargeCooldown: 5
+  parryCooldown: 2
+  parryDuration: 1
 --- !u!114 &181267554394757116
 MonoBehaviour:
   m_ObjectHideFlags: 0

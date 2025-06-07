@@ -63,7 +63,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   baseObject: {fileID: 0}
-  ticks: 5000
+  ticks: 500
   range: 1
   maxObjects: 2
 --- !u!114 &1577968258981688023
@@ -79,6 +79,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   baseObject: {fileID: 0}
-  ticks: 2500
+  ticks: 1500
   range: 1
   maxObjects: 4
